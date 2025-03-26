@@ -34,3 +34,10 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+var scope = app.Services.CreateScope();
+var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+
+await userService.AddUserAsync(new User { Name = "Test User", Email = "test@email.com" });
+
+Console.WriteLine("🔵 ทดสอบเพิ่มผู้ใช้จาก `Program.cs` แล้ว");

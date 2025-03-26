@@ -1,53 +1,42 @@
 ﻿@page "/student"
+@using TestMud.Models
+@inject IUserService UserService
+@inject ISnackbar Snackbar
+@inject NavigationManager Nav
+
 <PageTitle>Student</PageTitle>
 
-<h1>Student</h1>
+<h3>Add User</h3>
 
-Welcome to student list.
+<MudPaper Class="p-4">
+    <MudForm>
+        <MudTextField @bind-Value="NewUser.Name" Required="true" HelperText="Name" />
+        <MudTextField @bind-Value="NewUser.Email" Required="true" Type="email" HelperText="Email" />
 
-<MudCard>
-    <MudCardHeader>
-        <MudText Typo="Typo.h6">Student List</MudText>
-    </MudCardHeader>
-    <MudCardContent>
-        <MudDataGrid Items="@products" Dense="true" Hover="true" Elevation="2" Bordered="true">
-            <Columns>
-                <PropertyColumn Property="x => x.StudentId" Title="ID" Sortable="true" />
-                <PropertyColumn Property="x => x.Name" Title="Name" Sortable="true" />
-                <PropertyColumn Property="x => x.Surname" Title="Surname" />
-                <PropertyColumn Property="x => x.Status" />
-                <PropertyColumn Property="x => x.Major" />
-                <PropertyColumn Property="x => x.Faculty" />
-            </Columns>
-        </MudDataGrid>
-    </MudCardContent>
-</MudCard>
+        <MudButton OnClick="AddUser" Color="Color.Primary">Save</MudButton>
+        <MudButton OnClick="GoToUserList" Color="Color.Secondary">Go to User List</MudButton>
+    </MudForm>
+</MudPaper>
 
 @code {
-    private List<Product> products = new()
-    {
-        new Product { Id = 1, Name = "Kamolchanok", Surname = "Chuchuen", StudentId = "6410110005", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 2, Name = "Burhannurdeen", Surname = "Sa-ong", StudentId = "6410110123", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 3, Name = "Uraiwan", Surname = "Banna", StudentId = "6410110611", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 4, Name = "Poramet", Surname = "Chansong", StudentId = "6410110306", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 5, Name = "Bannarak", Surname = "Songcherm", StudentId = "6410110676", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 6, Name = "Keeramon", Surname = "Yamphasuk", StudentId = "6410110555", Status = "student", Major = "Chemistry Engineering", Faculty = "Engineer" },
-        new Product { Id = 7, Name = "Nattapong", Surname = "Srichai", StudentId = "6410110890", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 8, Name = "Jiraporn", Surname = "Chantharat", StudentId = "6410110777", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 9, Name = "Pongsakorn", Surname = "Thanasit", StudentId = "6410110666", Status = "student", Major = "Electric Engineering", Faculty = "Engineer" },
-        new Product { Id = 10, Name = "Sasiprapa", Surname = "Thongdee", StudentId = "6410110554", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 11, Name = "Thanapat", Surname = "Worapong", StudentId = "6410110443", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-        new Product { Id = 12, Name = "Waraporn", Surname = "Suksawat", StudentId = "6410110332", Status = "student", Major = "Computer Engineering", Faculty = "Engineer" },
-    };
+    private User NewUser = new();
 
-    class Product
+    private async Task AddUser()
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string StudentId { get; set; }
-        public string Major { get; set; }
-        public string Faculty { get; set; }
-        public string Status { get; set; }
+        if (string.IsNullOrWhiteSpace(NewUser.Name) || string.IsNullOrWhiteSpace(NewUser.Email))
+        {
+            Snackbar.Add("Can not be Empty!", Severity.Warning);
+            return;
+        }
+
+        await UserService.AddUserAsync(NewUser);
+        Snackbar.Add("Add User successfully!", Severity.Success);
+
+        NewUser = new(); // รีเซ็ตฟอร์ม
+    }
+
+    private void GoToUserList()
+    {
+        Nav.NavigateTo("/data");
     }
 }
