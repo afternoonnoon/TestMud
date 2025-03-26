@@ -1,0 +1,56 @@
+﻿@page "/"
+<PageTitle>Home</PageTitle>
+
+<h1>Home</h1>
+
+@code {
+    // ตัวอย่างลิสต์ข้อมูล
+    private List<CardItem> cardItems = new()
+    {
+        new CardItem { Title = "Home", Description = "Go to Home Page", Icon = Icons.Material.Filled.Home, Link = "/" },
+        new CardItem { Title = "Student", Description = "View Student Details", Icon = Icons.Material.Filled.School, Link = "/student" },
+        new CardItem { Title = "Counter", Description = "Counter Example", Icon = Icons.Material.Filled.Add, Link = "/counter" },
+        new CardItem { Title = "Weather", Description = "Check the weather", Icon = Icons.Material.Filled.WbSunny, Link = "/weather" }
+    };
+
+    public class CardItem
+    {
+        public string Title { get; set; } = "";
+        public string Description { get; set; } = "";
+        public string Icon { get; set; } = "";
+        public string Link { get; set; } = "";
+    }
+}
+
+<MudGrid Spacing="3">
+    @foreach (var item in cardItems)
+    {
+        <MudItem xs="12" sm="6" md="4" lg="3">
+            <MudCard Class="clickable-card">
+                <MudLink Href="@item.Link" Style="text-decoration: none; color: inherit;">
+                    <MudCardHeader>
+                        <CardHeaderContent>
+                            <MudText Typo="Typo.h6">@item.Title</MudText>
+                        </CardHeaderContent>
+                        <CardHeaderActions>
+                            <MudIcon Icon="@item.Icon" Size="Size.Medium" />
+                        </CardHeaderActions>
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.body2">@item.Description</MudText>
+                    </MudCardContent>
+                </MudLink>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+
+@code {
+    [Inject] NavigationManager Navigation { get; set; }
+
+    private void NavigateTo(string url)
+    {
+        Navigation.NavigateTo(url);
+    }
+}

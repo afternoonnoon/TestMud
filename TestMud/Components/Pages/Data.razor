@@ -1,0 +1,48 @@
+﻿@page "/data"
+@inject ApplicationDbContext Db
+@using TestMud.Models
+@using TestMud.Data
+@using Microsoft.EntityFrameworkCore
+@inject IUserService UserService
+
+<PageTitle>Data</PageTitle>
+
+<h3>User List</h3>
+
+@if (Users is null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (Users.Count == 0)
+{
+    <p>ไม่มีข้อมูลในระบบ</p>
+}
+else
+{
+    <MudTable Items="Users" Hover="true">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Email</MudTh>
+        </HeaderContent>
+
+        <RowTemplate Context="user">
+            <MudTd>@user.Name</MudTd>
+            <MudTd>@user.Email</MudTd>
+        </RowTemplate>
+    </MudTable>
+}
+
+@code {
+    private List<User> Users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        Users = await UserService.GetUsersAsync();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,42 @@
+﻿@using MudBlazor
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">TEST MUD BLAZOR</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<MudLayout>
+    <!-- Sidebar Navigation (MudDrawer)  -->
+    <MudDrawer Open="true" Anchor="Anchor.Left" Variant="DrawerVariant.Mini">
+        <MudNavMenu>
+
+            <MudNavLink Href="" Match="NavLinkMatch.All">
+                <MudIcon Icon="@Icons.Material.Filled.Home" Class="mr-2" />
+                Home
+            </MudNavLink>
+
+            <MudNavLink Href="student">
+                <MudIcon Icon="@Icons.Material.Filled.People" Class="mr-2" />
+                Student
+            </MudNavLink>
+
+            <MudNavLink Href="counter">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-2" />
+                Counter
+            </MudNavLink>
+
+            <MudNavLink Href="weather">
+                <MudIcon Icon="@Icons.Material.Filled.Cloud" Class="mr-2" />
+                Weather
+            </MudNavLink>
+
+            <MudNavLink Href="data">
+                <MudIcon Icon="@Icons.Material.Filled.Menu" Class="mr-2" />
+                Data table
+            </MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+</MudLayout>
